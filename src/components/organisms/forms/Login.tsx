@@ -8,23 +8,23 @@ import { getValue } from "@testing-library/user-event/dist/utils";
 interface FormInput {
   firstName: string;
   numberOfPeople: number;
-  date: string;
+  dayOfBooking: string;
+  time: string;
 }
-
+const now = new Date();
+const zodDayIsBefore = z.coerce.date();
+// .custom((val) => dayjs(val).isBefore(now));
 const schema = z.object({
   firstName: z
     .string({ message: "Your name is required" })
     .min(2, { message: "Please enter more letters" }),
   numberOfPeople: z.number().min(1).max(12, { message: "Contact support" }),
   // email: z.string({ required_error: "please provide an email" }).email(),
-  // date: zodDayIsBefore,
+  dayOfBooking: zodDayIsBefore,
+  time: z.coerce.string({ message: "This is required" }),
 });
 
 export default function LoginForm() {
-  // const zodDay = z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date");
-  const now = new Date();
-  const zodDayIsBefore = z.custom((val) => dayjs(val).isBefore(now));
-
   const {
     register,
     handleSubmit,
@@ -59,26 +59,11 @@ export default function LoginForm() {
           placeholder="name"
           aria-invalid={errors?.firstName ? "true" : "false"}
         />
-        {/* here
-        <ErrorMessage
-          errors={errors}
-          name="model"
-          render={({ message }) => <p>{message}</p>}
-        /> */}
-        {errors && <p>{errors.firstName?.message}</p>}
-      </div>
 
-      {/* <div>
-        <label>Gender Selection</label>
-        <select {...register("model.gender")}>
-          <option value="female">female</option>
-          <option value="male">male</option>
-          <option value="other">other</option>
-        </select>
-        {errors.model?.gender && (
-          <p className="bg-red-100">{errors.model?.gender.message}</p>
+        {errors.firstName?.message && (
+          <p className="bg-red-700 text-white">{errors.firstName?.message}</p>
         )}
-      </div> */}
+      </div>
 
       {/* {submitCount > 5 && (
         <strong className="text-red-900">
@@ -86,30 +71,48 @@ export default function LoginForm() {
         </strong>
       )} */}
 
-      {/* <input
-        type="number"
-        {...(register("numberOfPeople"),
-        {
-          valueasnumber: true,
-        })}
-      /> */}
-
       <input
         type="number"
         {...register("numberOfPeople", {
           setValueAs: (v) => parseInt(v),
         })}
       />
-      {/* <div>
-        <label htmlFor="date">Booking date</label>
+      {errors.numberOfPeople?.message && (
+        <p className="bg-red-700 text-white">
+          {errors.numberOfPeople?.message}
+        </p>
+      )}
+
+      <div>
+        <label htmlFor="dayOfBooking">Booking date</label>
 
         <input
-          {...(register("model.date"), { required: true })}
-          type="datetime-local"
+          {...register("dayOfBooking", { valueAsDate: true })}
+          type="date"
         />
-      </div> */}
-      {/* {errors.model?.date} */}
+        {errors.dayOfBooking?.message && (
+          <p className="bg-red-700 text-white">
+            {errors.dayOfBooking?.message}
+          </p>
+        )}
+      </div>
 
+      <div>
+        <label htmlFor="time">Booking time</label>
+
+        <input
+          {...register("time", {
+            valueAsDate: true,
+          })}
+          type="time"
+        />
+
+        {errors.time?.message && (
+          <p className="bg-red-700 text-white">{errors.time?.message}</p>
+        )}
+      </div>
+
+      {/* <button type="submit">Submit</button> */}
       <button onClick={handleClick}>Submit</button>
     </form>
   );
