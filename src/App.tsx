@@ -12,6 +12,11 @@ export const Nav = () => {
             Login
           </a>
         </li>
+        <li>
+          <a href="/zod" className="text-green-900">
+            zod
+          </a>
+        </li>
       </ul>
     </nav>
   );

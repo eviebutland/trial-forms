@@ -4,9 +4,16 @@ import "./index.css";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+  useRouteError,
+} from "react-router-dom";
 import Book from "./pages/Book";
 import Login from "./pages/Login";
+import ZodForm from "./components/organisms/forms/Zod";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +27,21 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    // errorElement: ErrorBoundary(),
+  },
+  {
+    path: "/zod",
+    element: <ZodForm />,
+    // errorElement: ErrorBoundary(),
   },
 ]);
+
+function ErrorBoundary() {
+  let error = useRouteError();
+  console.error(error);
+
+  return <div>Oops!</div>;
+}
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
