@@ -1,27 +1,34 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import dayjs, { Dayjs } from "dayjs";
-import { ErrorMessage } from "@hookform/error-message";
-import { getValue } from "@testing-library/user-event/dist/utils";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
+dayjs.extend(isSameOrAfter);
 interface FormInput {
   firstName: string;
   numberOfPeople: number;
   dayOfBooking: string;
-  time: string;
+  email: string;
 }
 const now = new Date();
-const zodDayIsBefore = z.coerce.date();
-// .custom((val) => dayjs(val).isBefore(now));
+const minTime = dayjs().add(1, "hour").toISOString(); // not actually working
+const maxTime = dayjs().add(1, "year").toISOString(); // not actually working
+
+console.log(minTime);
+const zodDayIsBefore = z.coerce
+  .date({ message: "Please provide a date" })
+  .refine((day) => dayjs(day).isSameOrAfter(now), {
+    message: "Date cannot be in the past",
+  });
+
 const schema = z.object({
   firstName: z
     .string({ message: "Your name is required" })
     .min(2, { message: "Please enter more letters" }),
   numberOfPeople: z.number().min(1).max(12, { message: "Contact support" }),
-  // email: z.string({ required_error: "please provide an email" }).email(),
+  email: z.string({ required_error: "please provide an email" }).email(),
   dayOfBooking: zodDayIsBefore,
-  time: z.coerce.string({ message: "This is required" }),
 });
 
 export default function LoginForm() {
@@ -86,9 +93,12 @@ export default function LoginForm() {
       <div>
         <label htmlFor="dayOfBooking">Booking date</label>
 
+        {/* maybe don't use date time as can't control the time step */}
         <input
           {...register("dayOfBooking", { valueAsDate: true })}
-          type="date"
+          type="datetime-local"
+          min={minTime}
+          max={maxTime}
         />
         {errors.dayOfBooking?.message && (
           <p className="bg-red-700 text-white">
@@ -98,17 +108,12 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <label htmlFor="time">Booking time</label>
+        <label htmlFor="email">Your email</label>
 
-        <input
-          {...register("time", {
-            valueAsDate: true,
-          })}
-          type="time"
-        />
+        <input {...register("email")} type="email" />
 
-        {errors.time?.message && (
-          <p className="bg-red-700 text-white">{errors.time?.message}</p>
+        {errors.email?.message && (
+          <p className="bg-red-700 text-white">{errors.email?.message}</p>
         )}
       </div>
 
