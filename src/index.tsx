@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Book from "./pages/Book";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     path: "/book",
     element: <Book />,
   },
+  {
+    path: "/login",
+    element: <Login />,
+  },
 ]);
 
 const rootElement = document.getElementById("root");
@@ -24,7 +29,6 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <RouterProvider router={router} />
-      {/* <App /> */}
     </React.StrictMode>,
   );
 }

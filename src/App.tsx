@@ -3,8 +3,13 @@ export const Nav = () => {
     <nav>
       <ul>
         <li>
-          <a href="/book" className="bg-red-900">
+          <a href="/book" className="text-blue-900">
             Book a stay with us
+          </a>
+        </li>
+        <li>
+          <a href="/login" className="text-green-900">
+            Login
           </a>
         </li>
       </ul>
