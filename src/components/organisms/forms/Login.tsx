@@ -5,15 +5,9 @@ import dayjs, { Dayjs } from "dayjs";
 import { ErrorMessage } from "@hookform/error-message";
 import { getValue } from "@testing-library/user-event/dist/utils";
 
-enum GenderEnum {
-  female = "female",
-  male = "male",
-  other = "other",
-}
-
 interface FormInput {
   firstName: string;
-  gender: GenderEnum;
+  numberOfPeople: number;
   date: string;
 }
 
@@ -22,7 +16,7 @@ const schema = z.object({
     .string({ message: "Your name is required" })
     .min(2, { message: "Please enter more letters" }),
   numberOfPeople: z.number().min(1).max(12, { message: "Contact support" }),
-  email: z.string({ required_error: "please provide an email" }).email(),
+  // email: z.string({ required_error: "please provide an email" }).email(),
   // date: zodDayIsBefore,
 });
 
@@ -41,13 +35,13 @@ export default function LoginForm() {
   });
 
   const submitForm: SubmitHandler<FormInput> = (data) => {
-    // why doesn't this trigger?
     console.log("being clicked", data);
   };
 
   function handleClick() {
     console.log("ebing clicked", getValues());
-    handleSubmit(submitForm);
+    handleSubmit((data) => submitForm(data));
+
     console.log("is dirty", isDirty);
     console.log("errors", errors);
     console.log("is valid", isValid);
@@ -92,6 +86,20 @@ export default function LoginForm() {
         </strong>
       )} */}
 
+      {/* <input
+        type="number"
+        {...(register("numberOfPeople"),
+        {
+          valueasnumber: true,
+        })}
+      /> */}
+
+      <input
+        type="number"
+        {...register("numberOfPeople", {
+          setValueAs: (v) => parseInt(v),
+        })}
+      />
       {/* <div>
         <label htmlFor="date">Booking date</label>
 
@@ -102,7 +110,7 @@ export default function LoginForm() {
       </div> */}
       {/* {errors.model?.date} */}
 
-      <button type="submit">Submit</button>
+      <button onClick={handleClick}>Submit</button>
     </form>
   );
 }
