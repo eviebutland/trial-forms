@@ -1,6 +1,7 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import svgrPlugin from "vite-plugin-svgr";
+import react from "@vitejs/plugin-react";
 
 // see all documentation here https://vitejs.dev/config/
 export default defineConfig({
@@ -13,7 +14,13 @@ export default defineConfig({
     host: "127.0.0.1",
     port: 3000,
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.ts",
+  },
   plugins: [
+    react(),
     reactRefresh(),
     svgrPlugin({
       svgrOptions: {
