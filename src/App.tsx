@@ -1,11 +1,11 @@
-import "./App.css";
-
 export const Nav = () => {
   return (
     <nav>
       <ul>
         <li>
-          <a href="/book">Book a stay with us</a>
+          <a href="/book" className="bg-red-900">
+            Book a stay with us
+          </a>
         </li>
       </ul>
     </nav>

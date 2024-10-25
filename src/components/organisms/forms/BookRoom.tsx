@@ -15,7 +15,7 @@ const BookRoomForm = () => {
   return (
     // Using a fragment to save another div (excessive in this case)
     <>
-      <h1>Book Room</h1>
+      <h2>Book Room</h2>
       <form>
         <label>Your name</label>
         <input value={model.name} type="text" />

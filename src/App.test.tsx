@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { Nav } from "./App";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
 
 describe("Movies", () => {
   /**... */
