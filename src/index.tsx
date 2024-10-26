@@ -6,10 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {
   createBrowserRouter,
-  Route,
-  Router,
   RouterProvider,
-  Routes,
   useRouteError,
 } from "react-router-dom";
 import Book from "./pages/Book";
@@ -61,22 +58,6 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <RouterProvider router={router} />
-      {/* <Router>
-        <Routes>
-          <Route path="/" element={<App />} errorElement={<ErrorBoundary />}>
-            <Route
-              path="messages"
-              element={<Book />}
-              errorElement={<ErrorBoundary />}
-            />
-            <Route
-              path="tasks"
-              element={<ZodForm />}
-              errorElement={<ErrorBoundary />}
-            />
-          </Route>
-        </Routes>
-      </Router> */}
     </React.StrictMode>,
   );
 }

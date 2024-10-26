@@ -7,7 +7,7 @@ import { FormField } from "../../molecules/FormField";
 import { FormInput } from "../../../types/form";
 import { ErrorMessage } from "../../molecules/Error";
 import { useState } from "react";
-import Button from "../../atoms/Button";
+import { RButton } from "../../atoms/Button";
 import { Loading } from "../../atoms/Loading";
 
 dayjs.extend(isSameOrAfter);
@@ -77,10 +77,6 @@ export default function LoginForm() {
     }
   };
 
-  function handleClick() {
-    handleSubmit((data) => submitForm(data));
-  }
-
   function handleResetForm() {
     reset();
     setDisplaySuccessMessage(false);
@@ -100,6 +96,7 @@ export default function LoginForm() {
         >
           <input
             type="string"
+            data-testid="name"
             {...register("firstName")}
             placeholder="name"
             className="border rounded p-2"
@@ -113,6 +110,7 @@ export default function LoginForm() {
           errors={errors?.phone}
         >
           <input
+            data-testid="phone"
             {...register("phone")}
             placeholder="07720765444"
             type="phone"
@@ -124,6 +122,7 @@ export default function LoginForm() {
       <div className="flex space-x-2">
         <FormField name="email" errors={errors.email} label="Your email">
           <input
+            data-testid="email"
             {...register("email")}
             type="email"
             className="border rounded p-2"
@@ -141,6 +140,7 @@ export default function LoginForm() {
             {...register("numberOfPeople", {
               setValueAs: (v) => parseInt(v),
             })}
+            data-testid="numberOfPeople"
             type="number"
             aria-invalid={errors.numberOfPeople ? "true" : "false"}
           />
@@ -156,6 +156,7 @@ export default function LoginForm() {
             className="border rounded p-2"
             min={minTime}
             max={maxTime}
+            data-testid="dayOfBooking"
             {...register("dayOfBooking", { valueAsDate: true })}
             type="datetime-local"
             aria-invalid={errors.email ? "true" : "false"}
@@ -175,7 +176,7 @@ export default function LoginForm() {
         {(isLoading || isLoadingApiCall) && <Loading />}
 
         {displaySuccessMessage ? (
-          <div>
+          <div data-testid="success-block">
             <p className="text-green-800 font-bold pb-4">
               Thank you for booking!
             </p>
@@ -184,18 +185,20 @@ export default function LoginForm() {
               <span className="font-bold">{getValues("email")}</span>
             </p>
 
-            <Button
+            <RButton
               variant="secondary"
               onClick={handleResetForm}
               label="Book another"
+              data-testid="bookAnotherBtn"
             />
           </div>
         ) : (
-          <Button
-            variant="info"
+          <RButton
             disabled={displayErrorMessage || isLoading}
-            onClick={handleClick}
+            testId="submitBtn"
+            variant="info"
             label="Submit"
+            onClick={handleSubmit((data) => submitForm(data))}
           />
         )}
       </div>

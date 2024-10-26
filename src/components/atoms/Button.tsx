@@ -5,6 +5,7 @@ interface ButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement>;
   label: string;
   disabled?: boolean;
+  testId?: string;
   variant: "primary" | "secondary" | "success" | "danger" | "info";
 }
 
@@ -12,6 +13,7 @@ interface ButtonProps {
 export const RButton = (props: ButtonProps) => {
   return (
     <Button
+      data-testid={props.testId}
       disabled={props.disabled}
       onClick={props.onClick}
       variant={`outline-${props.variant}`}
