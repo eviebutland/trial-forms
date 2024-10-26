@@ -5,6 +5,7 @@
     "email": "evie.butland@gmail.com",
     "phone": "07766554333",
     "age": 25,
+    "rating": 3,
     "location": {
       "address": {
         "line1": "1 NowFoundlond Palace",
@@ -22,6 +23,25 @@
     "email": "sarah.bse@gmail.com",
     "phone": "07766534333",
     "age": 28,
+    "rating": 1,
+    "location": {
+      "address": {
+        "line1": "1 Palace",
+        "line2": "",
+        "postcode": "RH4 6FP",
+        "region": "Sussex",
+        "city": "",
+        "country": "United Kingdom"
+      }
+    }
+  },
+  {
+    "id": 3,
+    "name": "Mitchel",
+    "email": "mitchell@gmail.com",
+    "phone": "07766534333",
+    "age": 19,
+    "rating": 5,
     "location": {
       "address": {
         "line1": "1 Palace",

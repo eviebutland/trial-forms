@@ -7,7 +7,8 @@ import { FormField } from "../../molecules/FormField";
 import { FormInput } from "../../../types/form";
 import { ErrorMessage } from "../../molecules/Error";
 import { useState } from "react";
-import { getValue } from "@testing-library/user-event/dist/utils";
+import Button from "../../atoms/Button";
+import { Loading } from "../../atoms/Loading";
 
 dayjs.extend(isSameOrAfter);
 
@@ -38,17 +39,19 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, submitCount },
+    formState: { errors, submitCount, isLoading, isValid, isDirty },
     getValues,
     reset,
   } = useForm<FormInput>({
     resolver: zodResolver(schema),
   });
 
+  const [isLoadingApiCall, setIsLoadingApiCall] = useState(false);
   const [displaySuccessMessage, setDisplaySuccessMessage] = useState(false);
   const [displayErrorMessage, setDisplayErrorMessage] = useState(false);
 
   const submitForm: SubmitHandler<FormInput> = async (data) => {
+    setIsLoadingApiCall(true);
     setDisplaySuccessMessage(false);
     setDisplayErrorMessage(false);
 
@@ -69,6 +72,8 @@ export default function LoginForm() {
     } catch (error) {
       console.log(error);
       setDisplayErrorMessage(true);
+    } finally {
+      setIsLoadingApiCall(false);
     }
   };
 
@@ -116,7 +121,6 @@ export default function LoginForm() {
           />
         </FormField>
       </div>
-
       <div className="flex space-x-2">
         <FormField name="email" errors={errors.email} label="Your email">
           <input
@@ -142,7 +146,6 @@ export default function LoginForm() {
           />
         </FormField>
       </div>
-
       <div className="flex">
         <FormField
           label="Reservation date"
@@ -159,8 +162,7 @@ export default function LoginForm() {
           />
         </FormField>
       </div>
-      {/* maybe don't use date time as can't control the time step */}
-
+      {/* TODO: maybe don't use date time as can't control the time step */}
       <div className="flex">
         {submitCount > 5 && (
           <ErrorMessage message="You have reached max number of submissions, please come back again later" />
@@ -169,6 +171,8 @@ export default function LoginForm() {
         {displayErrorMessage && (
           <ErrorMessage message="Something went wrong, please come back again later" />
         )}
+
+        {(isLoading || isLoadingApiCall) && <Loading />}
 
         {displaySuccessMessage ? (
           <div>
@@ -179,14 +183,20 @@ export default function LoginForm() {
               Your booking confirmation will be emailed to:{" "}
               <span className="font-bold">{getValues("email")}</span>
             </p>
-            <button className="border rounded p-2" onClick={handleResetForm}>
-              Book another?
-            </button>
+
+            <Button
+              variant="secondary"
+              onClick={handleResetForm}
+              label="Book another"
+            />
           </div>
         ) : (
-          <button className="border rounded p-2" onClick={handleClick}>
-            Submit
-          </button>
+          <Button
+            variant="info"
+            disabled={displayErrorMessage || isLoading}
+            onClick={handleClick}
+            label="Submit"
+          />
         )}
       </div>
     </form>

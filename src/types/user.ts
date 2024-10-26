@@ -16,4 +16,5 @@ export interface User {
   location: {
     address: Address;
   };
+  rating: number;
 }

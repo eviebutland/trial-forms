@@ -1,7 +1,10 @@
+import { memo } from "react";
+
 interface Props {
   message: string;
 }
 
-export const ErrorMessage = (props: Props) => {
+// Using memo to make sure we don't get unnessary re-renders when the props haven't changed
+export const ErrorMessage = memo(function ErrorMesage(props: Props) {
   return <p className="text-red-700">{props.message}</p>;
-};
+});
