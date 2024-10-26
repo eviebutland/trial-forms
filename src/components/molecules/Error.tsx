@@ -3,5 +3,5 @@ interface Props {
 }
 
 export const ErrorMessage = (props: Props) => {
-  return <p className="bg-red-700 text-white">{props.message}</p>;
+  return <p className="text-red-700">{props.message}</p>;
 };

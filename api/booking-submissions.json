@@ -1,0 +1,68 @@
+{
+  "bookings": [
+    {
+      "id": "d715",
+      "firstName": "werw",
+      "numberOfPeople": 2,
+      "email": "evue@d.com",
+      "dayOfBooking": "2024-10-27T08:51:00.000Z",
+      "phone": "0888888888"
+    },
+    {
+      "id": "7605",
+      "firstName": "Evie b",
+      "numberOfPeople": 12,
+      "email": "evie.butk@gmail.com",
+      "dayOfBooking": "2024-10-26T09:50:00.000Z",
+      "phone": "0775544444"
+    },
+    {
+      "id": "0644",
+      "firstName": "evie",
+      "numberOfPeople": 2,
+      "email": "evie.butland@gmail.com",
+      "dayOfBooking": "2024-10-27T08:57:00.000Z",
+      "phone": "0772732233"
+    },
+    {
+      "id": "751e",
+      "firstName": "evie",
+      "numberOfPeople": 2,
+      "email": "evie.butland@gmail.com",
+      "dayOfBooking": "2024-10-27T08:57:00.000Z",
+      "phone": "0772732233"
+    },
+    {
+      "id": "7891",
+      "firstName": "er",
+      "numberOfPeople": 3,
+      "email": "evie.b@g.com",
+      "dayOfBooking": "2024-11-02T09:02:00.000Z",
+      "phone": "0773432323"
+    },
+    {
+      "id": "f1f1",
+      "firstName": "wer",
+      "numberOfPeople": 12,
+      "email": "ecue.but@gmai.com",
+      "dayOfBooking": "2024-10-27T09:07:00.000Z",
+      "phone": "0882342323"
+    },
+    {
+      "id": "df51",
+      "firstName": "dwe",
+      "numberOfPeople": 12,
+      "email": "evie.b@g.com",
+      "dayOfBooking": "2024-10-27T09:09:00.000Z",
+      "phone": "07720764111"
+    },
+    {
+      "id": "e6f8",
+      "firstName": "ewr",
+      "numberOfPeople": 12,
+      "email": "e@e.com",
+      "dayOfBooking": "2024-10-27T09:09:00.000Z",
+      "phone": "0772021121"
+    }
+  ]
+}

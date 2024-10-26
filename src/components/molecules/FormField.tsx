@@ -12,12 +12,14 @@ interface Props {
 
 export const FormField = (props: Props) => {
   return (
-    <>
-      <label htmlFor={props.name}>{props.label}</label>
+    <div className="flex flex-col py-2">
+      <label htmlFor={props.name} className="pb-2">
+        {props.label}
+      </label>
 
       {props.children}
 
       {props.errors?.message && <ErrorMessage message={props.errors.message} />}
-    </>
+    </div>
   );
 };

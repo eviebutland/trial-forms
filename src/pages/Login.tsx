@@ -5,7 +5,6 @@ export const Login = () => {
   // Add translations to the strings
   return (
     <>
-      <h1>Login</h1>
       <LoginForm></LoginForm>
     </>
   );

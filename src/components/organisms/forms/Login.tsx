@@ -6,6 +6,8 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import { FormField } from "../../molecules/FormField";
 import { FormInput } from "../../../types/form";
 import { ErrorMessage } from "../../molecules/Error";
+import { useState } from "react";
+import { getValue } from "@testing-library/user-event/dist/utils";
 
 dayjs.extend(isSameOrAfter);
 
@@ -37,85 +39,156 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors, submitCount },
+    getValues,
+    reset,
   } = useForm<FormInput>({
     resolver: zodResolver(schema),
   });
 
-  const submitForm: SubmitHandler<FormInput> = (data) => {
-    console.log("being clicked", data);
-    // call api here
+  const [displaySuccessMessage, setDisplaySuccessMessage] = useState(false);
+  const [displayErrorMessage, setDisplayErrorMessage] = useState(false);
+
+  const submitForm: SubmitHandler<FormInput> = async (data) => {
+    setDisplaySuccessMessage(false);
+    setDisplayErrorMessage(false);
+
+    // TODO: saintise data here before we post it
+    try {
+      const response = await fetch("http://localhost:3000/bookings", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
+      if (response.status === 201) {
+        setDisplaySuccessMessage(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setDisplayErrorMessage(true);
+    }
   };
 
   function handleClick() {
     handleSubmit((data) => submitForm(data));
   }
 
+  function handleResetForm() {
+    reset();
+    setDisplaySuccessMessage(false);
+  }
+
   return (
-    <form onSubmit={handleSubmit(submitForm)} noValidate>
-      <FormField
-        name="firstName"
-        label={"Your name"}
-        errors={errors?.firstName}
-      >
-        <input
-          type="string"
-          {...register("firstName")}
-          placeholder="name"
-          aria-invalid={errors.firstName ? "true" : "false"}
-        />
-      </FormField>
+    <form
+      onSubmit={handleSubmit(submitForm)}
+      noValidate
+      className="flex flex-col justify-center"
+    >
+      <div className="flex space-x-2">
+        <FormField
+          name="firstName"
+          label={"Your name"}
+          errors={errors?.firstName}
+        >
+          <input
+            type="string"
+            {...register("firstName")}
+            placeholder="name"
+            className="border rounded p-2"
+            aria-invalid={errors.firstName ? "true" : "false"}
+          />
+        </FormField>
 
-      <FormField name="phone" label="Your phone number" errors={errors?.phone}>
-        <input
-          {...register("phone")}
-          placeholder="07720765444"
-          type="phone"
-          aria-invalid={errors.phone ? "true" : "false"}
-        />
-      </FormField>
+        <FormField
+          name="phone"
+          label="Your phone number"
+          errors={errors?.phone}
+        >
+          <input
+            {...register("phone")}
+            placeholder="07720765444"
+            type="phone"
+            className="border rounded p-2"
+            aria-invalid={errors.phone ? "true" : "false"}
+          />
+        </FormField>
+      </div>
 
-      <FormField name="email" errors={errors.email} label="Your email">
-        <input
-          {...register("email")}
-          type="email"
-          aria-invalid={errors.email ? "true" : "false"}
-        />
-      </FormField>
+      <div className="flex space-x-2">
+        <FormField name="email" errors={errors.email} label="Your email">
+          <input
+            {...register("email")}
+            type="email"
+            className="border rounded p-2"
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+        </FormField>
 
-      <FormField
-        name="numberOfPeople"
-        label="Number of guests"
-        errors={errors.numberOfPeople}
-      >
-        <input
-          {...register("numberOfPeople", {
-            setValueAs: (v) => parseInt(v),
-          })}
-          type="number"
-          aria-invalid={errors.numberOfPeople ? "true" : "false"}
-        />
-      </FormField>
+        <FormField
+          name="numberOfPeople"
+          label="Number of guests"
+          errors={errors.numberOfPeople}
+        >
+          <input
+            className="border rounded p-2"
+            {...register("numberOfPeople", {
+              setValueAs: (v) => parseInt(v),
+            })}
+            type="number"
+            aria-invalid={errors.numberOfPeople ? "true" : "false"}
+          />
+        </FormField>
+      </div>
 
+      <div className="flex">
+        <FormField
+          label="Reservation date"
+          name="dayOfBooking"
+          errors={errors.dayOfBooking}
+        >
+          <input
+            className="border rounded p-2"
+            min={minTime}
+            max={maxTime}
+            {...register("dayOfBooking", { valueAsDate: true })}
+            type="datetime-local"
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+        </FormField>
+      </div>
       {/* maybe don't use date time as can't control the time step */}
-      <FormField
-        label="Reservation date"
-        name="dayOfBooking"
-        errors={errors.dayOfBooking}
-      >
-        <input
-          min={minTime}
-          max={maxTime}
-          {...register("dayOfBooking", { valueAsDate: true })}
-          type="datetime-local"
-          aria-invalid={errors.email ? "true" : "false"}
-        />
-      </FormField>
 
-      {submitCount > 5 && (
-        <ErrorMessage message="You have reached max number of submissions, please come back again later"></ErrorMessage>
-      )}
+      <div className="flex">
+        {submitCount > 5 && (
+          <ErrorMessage message="You have reached max number of submissions, please come back again later" />
+        )}
 
-      <button onClick={handleClick}>Submit</button>
+        {displayErrorMessage && (
+          <ErrorMessage message="Something went wrong, please come back again later" />
+        )}
+
+        {displaySuccessMessage ? (
+          <div>
+            <p className="text-green-800 font-bold pb-4">
+              Thank you for booking!
+            </p>
+            <p className=" pb-4">
+              Your booking confirmation will be emailed to:{" "}
+              <span className="font-bold">{getValues("email")}</span>
+            </p>
+            <button className="border rounded p-2" onClick={handleResetForm}>
+              Book another?
+            </button>
+          </div>
+        ) : (
+          <button className="border rounded p-2" onClick={handleClick}>
+            Submit
+          </button>
+        )}
+      </div>
     </form>
   );
 }
