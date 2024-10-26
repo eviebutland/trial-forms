@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import {
   createBrowserRouter,
   Route,
+  Router,
   RouterProvider,
   Routes,
   useRouteError,
@@ -14,6 +15,8 @@ import {
 import Book from "./pages/Book";
 import Login from "./pages/Login";
 import ZodForm from "./components/organisms/forms/Zod";
+import { Users } from "./pages/Users";
+import { UserPage } from "./pages/User";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,15 @@ const router = createBrowserRouter([
     element: <ZodForm />,
     // errorElement: ErrorBoundary(),
   },
+  {
+    path: "/users",
+    element: <Users />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: "/users/:userid",
+    element: <UserPage />,
+  },
 ]);
 
 function ErrorBoundary() {
@@ -49,6 +61,22 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <RouterProvider router={router} />
+      {/* <Router>
+        <Routes>
+          <Route path="/" element={<App />} errorElement={<ErrorBoundary />}>
+            <Route
+              path="messages"
+              element={<Book />}
+              errorElement={<ErrorBoundary />}
+            />
+            <Route
+              path="tasks"
+              element={<ZodForm />}
+              errorElement={<ErrorBoundary />}
+            />
+          </Route>
+        </Routes>
+      </Router> */}
     </React.StrictMode>,
   );
 }

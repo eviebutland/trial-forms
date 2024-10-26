@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "name": "Evie",
+    "email": "evie.butland@gmail.com",
+    "phone": "07766554333",
+    "age": 25,
+    "location": {
+      "address": {
+        "line1": "1 NowFoundlond Palace",
+        "line2": "Flat 34",
+        "postcode": "SO4 6GH",
+        "region": "London",
+        "city": "London",
+        "country": "United Kingdom"
+      }
+    }
+  },
+  {
+    "id": 2,
+    "name": "Sarah",
+    "email": "sarah.bse@gmail.com",
+    "phone": "07766534333",
+    "age": 28,
+    "location": {
+      "address": {
+        "line1": "1 Palace",
+        "line2": "",
+        "postcode": "RH4 6FP",
+        "region": "Sussex",
+        "city": "",
+        "country": "United Kingdom"
+      }
+    }
+  }
+]

@@ -13,7 +13,6 @@ const now = new Date();
 const minTime = dayjs().add(1, "hour").toISOString(); // not actually working
 const maxTime = dayjs().add(1, "year").toISOString(); // not actually working
 
-console.log(minTime);
 const zodDayIsBefore = z.coerce
   .date({ message: "Please provide a date" })
   .refine((day) => dayjs(day).isSameOrAfter(now), {
@@ -37,27 +36,20 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { isDirty, isLoading, isValid, errors, submitCount, disabled },
-    getValues,
+    formState: { errors, submitCount },
   } = useForm<FormInput>({
     resolver: zodResolver(schema),
   });
 
   const submitForm: SubmitHandler<FormInput> = (data) => {
     console.log("being clicked", data);
+    // call api here
   };
 
   function handleClick() {
-    console.log("ebing clicked", getValues());
     handleSubmit((data) => submitForm(data));
-
-    console.log("is dirty", isDirty);
-    console.log("errors", errors);
-    console.log("is valid", isValid);
-    console.log("submitCount", submitCount);
-    console.log("isLoading", isLoading);
-    console.log("disabled", disabled);
   }
+
   return (
     <form onSubmit={handleSubmit(submitForm)} noValidate>
       <FormField
@@ -120,7 +112,7 @@ export default function LoginForm() {
       </FormField>
 
       {submitCount > 5 && (
-        <ErrorMessage message="You have reached max number of submissions"></ErrorMessage>
+        <ErrorMessage message="You have reached max number of submissions, please come back again later"></ErrorMessage>
       )}
 
       <button onClick={handleClick}>Submit</button>
